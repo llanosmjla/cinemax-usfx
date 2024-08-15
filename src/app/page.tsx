@@ -21,6 +21,7 @@ export default function Home() {
               height={24}
               priority
             />
+            <h2 className="text-xs font-bold text-gray-500 dark:text-gray-400"> Welcome to Next JS </h2>
           </a>
         </div>
       </div>

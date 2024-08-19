@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ "master" ]
 
+  
+  # develop
+  # feature/tarea
+  # fix / tarea
+
 jobs:
   build:
 

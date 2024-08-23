@@ -32,18 +32,4 @@ const useMovies = ({ pages, sort_by } : { pages: number, sort_by: string }) : { 
 }
 
 
-/*const useMovies = (): { movies: any } => {
-    const [movies, setMovies] = useState([]);
-
-    useEffect(() => {
-        fetch(url, options)
-            .then((res) => res.json())
-            .then((data) => {
-                setMovies(data.results);
-            });
-    }, []);
-
-    return { movies };
-}*/
-
 export default useMovies;

@@ -10,11 +10,11 @@ export default function TextCard({ title, releaseDate, genre, popularity }: Text
     return (
         // La tarjeta tendra 3 textos el primero sera el titulo de la pelicula, el de abajo fecha de estreno 
         // tipo de pelicula y duracion
-        <div className="flex flex-col p-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
-            <h1 className="text-xl font-semibold text-gray-800 dark:text-white">{title || "Title"}</h1>
-            <p className="text-sm text-gray-600 dark:text-gray-300">Fecha de estreno: {releaseDate}</p>
-            <p className="text-sm text-gray-600 dark:text-gray-300">{genre}</p>
-            <p className="text-sm text-gray-600 dark:text-gray-300">Popularity: {popularity}</p>
-        </div>
+        <>
+            <h1 className="pl-2 pt-4 text-xl font-bold text-gray-800 dark:text-white mb-2" >{title || "Title"}</h1>
+            <p className="pl-2 text-sm text-gray-600 dark:text-gray-300 mb-1">Fecha de estreno: {releaseDate}</p>
+            <p className="pl-2 text-sm text-gray-600 dark:text-gray-300 mb-1">Género: {genre}</p>
+            <p className="pl-2 pb-4 text-sm text-gray-600 dark:text-gray-300">Popularidad: {popularity}</p>
+        </>
     );
 }

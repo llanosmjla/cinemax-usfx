@@ -34,7 +34,7 @@ export default function RootLayout({
 
             <hr className="my-3" />
           </NavBar>
-          <div className="flex  flex-col">
+          <div className="flex flex-col">
             {children}
           </div>
         </div>

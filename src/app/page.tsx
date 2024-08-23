@@ -46,8 +46,8 @@ export default function Home() {
         <h2 className="text-xl">Page: {page}</h2>
         <input type="search" name="" id="" placeholder="Search"/>
       </div>
-      <div className="bg-red-400 basis-2/6">
-        carusel
+      <div className="basis-2/6">
+        <CarouselMovie movies={movies} />
       </div>
       <div className=" basis-16">
                 {genres.length > 0 ? (

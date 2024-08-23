@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="grid grid-cols-[auto_1fr] bg-slate-200">
+        <div className="grid grid-cols-[auto_1fr] bg-[#edf6f9]">
           <NavBar>
             <Link href="/">
               <SidebarItem icon={<HomeIcon size={10} color="text-sky-100" />} text="Home" alert href="/" />
@@ -31,9 +31,10 @@ export default function RootLayout({
             <Link href="/about">
               <SidebarItem icon={<AboutIcon size={10} color="text-sky-100" />} text="About" href="/about" />
             </Link>
+
             <hr className="my-3" />
           </NavBar>
-          <div className="p-4">
+          <div className="flex  flex-col">
             {children}
           </div>
         </div>

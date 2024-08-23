@@ -14,7 +14,7 @@ export default function ImageCard({ src, alt, width, height } : ImageCardProps) 
         <Image
             src={src}
             alt={alt}
-            className="w-full h-48 object-cover"
+            className=""
             width={width}
             height={height}
             priority

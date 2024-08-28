@@ -41,8 +41,8 @@ export default function Home() {
   const { movies } = useMovies({ pages: page, sort_by: "popularity.desc" });
 
   return (
-    <div className="flex flex-col w-full h-full ">
-      <div className="flex justify-between text-sky-400 bg-sky-950 basis-14 items-center text-lg px-4 rounded-t-lg">
+    <div className="flex flex-col w-full h-full justify-center items-center">
+      <div className="flex justify-between text-sky-400 bg-sky-950 basis-14 items-center text-lg px-4 rounded-t-lg w-full h-full">
         <h2 className="text-xl">Page: {page}</h2>
         <input type="search" name="" id="" placeholder="Search"/>
       </div>
@@ -89,7 +89,7 @@ export default function Home() {
           />
         ))}
       </div>
-      <div className="flex justify-center gap-4 bg-sky-950 basis-10 rounded-b-lg text-lg items-center text-sky-400">
+      <div className="flex justify-center gap-4 bg-sky-950 basis-10 rounded-b-lg text-lg items-center text-sky-400 w-full h-full">
         <button onClick={() => setPage(LastPage(page))} className="text-sky-400 text-xl hover:text-sky-100">
           Last Page
         </button>

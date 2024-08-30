@@ -1,6 +1,4 @@
 
-
-
 export const UrlBase = "https://api.themoviedb.org/3";
 
 export const Options = {

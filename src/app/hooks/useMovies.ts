@@ -12,21 +12,31 @@ const options = {
     }
 };
 
-function getData({ page, sort_by } : { page: number, sort_by: string }) {
-    return fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=${sort_by}`, options)
+type DataProps = {
+    page: number;
+    with_genres?: number;
+};
+let url = '';
+function getData({ page, with_genres } : DataProps) {
+    if(!with_genres) {
+        url = `https://api.themoviedb.org/3/discover/movie?page=${page}`;
+    }else {
+        url = `https://api.themoviedb.org/3/discover/movie?page=${page}&with_genres=${with_genres}`;
+    }
+    return fetch(url, options)
         .then((res) => res.json())
         .then((data) => data.results);
 }
 
-const useMovies = ({ pages, sort_by } : { pages: number, sort_by: string }) : { movies: any } => {
+const useMovies = ({ page, with_genres } : DataProps) : { movies: any } => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
-        getData({ page: pages, sort_by })
+        getData({ page: page, with_genres: with_genres })
             .then((data) => {
                 setMovies(data);
             });
-    }, [pages, sort_by]);
+    }, [page, with_genres]);
 
     return { movies };
 }

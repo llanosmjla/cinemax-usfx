@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import NavBar, { SidebarItem } from "@/components/templats/NavBar";
-import HomeIcon from "@/components/atoms/icons/HomeIcon";
-import AboutIcon from "@/components/atoms/icons/AboutIcon";
-import Link from "next/link";
+
+import NavBar from "@/app/components/templats/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,23 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex bg-[#edf6f9]">
-          <div className= "z-50">
-          <NavBar>
-            <Link href="/">
-              <SidebarItem icon={<HomeIcon size={10} color="text-sky-100" />} text="Home" alert href="/" />
-            </Link>
-
-            <Link href="/about">
-              <SidebarItem icon={<AboutIcon size={10} color="text-sky-100" />} text="About" href="/about" />
-            </Link>
-
-            <hr className="my-3" />
-          </NavBar>
+        <div className="flex bg-sky-950 flex-col">
+          <div>
+            <NavBar />
           </div>
-
-          
-          <div className="flex justify-center align-bottom">
+          <div>
             {children}
           </div>
         </div>

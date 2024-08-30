@@ -1,11 +1,10 @@
 import { getMovies } from "@/services/movies";
-import MoviesContainerClient from "@/app/sections/movies/MoviesContainerClient";
-import MoviesListServer from "@/app/sections/movies/MoviesListServer";
+import MoviesContainerClient from "../sections/movies/MoviesContainerClient";
+import MoviesListServer from "../sections/movies/MoviesListServer";
 import { getGenres } from "@/services/genres";
 import { Suspense } from "react";
-import MoviesListSkeleton from "@/app/sections/movies/MoviesListSkeleton";
-import CarouselList from "@/app/sections/movies/CarouselList";
-import ButtonsCategories from "./sections/movies/ButtonsCategories";
+import MoviesListSkeleton from "../sections/movies/MoviesListSkeleton";
+import CarouselList from "../sections/movies/CarouselList";
 
 
 
@@ -21,7 +20,6 @@ export default async function Movies({searchParams}:
             >
                 <Suspense fallback={<MoviesListSkeleton />}>
                 <CarouselList />
-                <ButtonsCategories genres={dataGenres.genres} />
                 <MoviesListServer 
                     genre={searchParams.genre}
                     page={searchParams.page}

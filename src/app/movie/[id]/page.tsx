@@ -350,12 +350,17 @@
 
 'use client';
 
-import useMovies from "@/hooks/useMovies";
+import Search from "@/app/components/molecules/Search";
+import useMovies from "@/app/hooks/useMovies";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function MovieDetails({ params }: { params: {id:number} }) {
-    const { movies } = useMovies({ pages: 1, sort_by: "popularity.desc" });
+    const paramsUrl = useSearchParams();
+    const page = paramsUrl.get('page') || 1;
+    const genre = paramsUrl.get('genre') || 0;
+    const { movies } = useMovies({ page: +page, with_genres: +genre });
     const movie = movies.find((item : any) => item.id === Number(params.id));
     const [cast, setCast] = useState([]);
     const [keywords, setKeywords] = useState([]);
@@ -397,7 +402,7 @@ export default function MovieDetails({ params }: { params: {id:number} }) {
 
         fetchCast();
         fetchKeywords();
-    }, [movie]);
+    }, [params.id]);
 
     if (!movie) {
         return <div>Movie not found</div>;

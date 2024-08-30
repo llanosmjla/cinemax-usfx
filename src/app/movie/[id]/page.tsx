@@ -402,12 +402,12 @@ export default function MovieDetails({ params }: { params: {id:number} }) {
 
         fetchCast();
         fetchKeywords();
-    }, [params.id]);
+    }, [movie]);
 
     if (!movie) {
         return <div>Movie not found</div>;
     }
-
+ 
     const genres = movie.genres ? movie.genres.map((genre: any) => genre.name).join(', ') : 'Géneros no disponibles';
     const releaseDate = new Date(movie.release_date).toLocaleDateString();
     const runtimeHours = movie.runtime ? Math.floor(movie.runtime / 60) : 0;

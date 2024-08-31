@@ -1,128 +1,120 @@
-"use client";
+'use client'; // Asegura que todo el código en este archivo se ejecute en el cliente
 
-import Image from "next/image";
-import ChevronFirst from "../atoms/icons/ChevronFirst";
-import MoreVertical from "../atoms/MoreVertical";
-import { use, useContext, useEffect, useState } from "react";
-import { createContext } from "react";
-import ChevronLast from "../atoms/icons/ChevronLast";
+import React, { useEffect } from "react";
+import { usePathname } from "next/navigation"; // Usa usePathname desde next/navigation
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
+  Link,
+  Button
+} from "@nextui-org/react";
+import { Popcorn } from 'lucide-react';
 
-
-const SidebarContext = createContext(false);
-
-export default function NavBar({ children } : Readonly<{ children: React.ReactNode }>) {
-  const [expanded, setExpanded] = useState(true);
-
-  const [isMobile, setIsMobile] = useState(false);
+export default function 
+NavBar() {
+  const pathname = usePathname(); // Obtiene la ruta actual
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(true);
+  const [lastScrollTop, setLastScrollTop] = React.useState(0);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      // Si el usuario se desplaza hacia abajo
+      if (scrollTop > lastScrollTop) {
+        setIsVisible(false);
+      } 
+      // Si el usuario se desplaza hacia arriba
+      else {
+        setIsVisible(true);
+      }
+
+      // Actualiza la última posición de desplazamiento
+      setLastScrollTop(scrollTop);
     };
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
+    window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return (
-      <aside className={`${!expanded || !isMobile ? "sticky top-0 h-screen border-r" : "fixed top-0 h-screen border-r z-50"}`} >
-      <nav className="h-full w-fit flex flex-col bg-sky-950 border-r shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center ">
-          <Image
-            className={`overflow-hidden transition-all ${expanded ? "w-36" : "w-0"}`}
-            src="/logoCinema.svg"
-            alt="logo"
-            width={50}
-            height={70}
-            priority
-          />
-          <button onClick={() => setExpanded(current => !current)} className="p-1.5 rounded-lg bg-sky-900 hover:bg-blue-200" >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
-          </button>
-        </div>
-
-        <SidebarContext.Provider value={expanded}>
-          <ul className="flex-1 px-3">
-            {children}
-          </ul>
-        </SidebarContext.Provider>
-
-        <div className="border-t flex p-3">
-          <Image
-            className="w-10 h-10 rounded-md"
-            src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
-            alt="profile"
-            width={50}
-            height={50}
-            priority
-        />
-
-          <div className={`flex justify-between items-center
-                          overflow-hidden trnasition-all ${expanded ? "w-52 ml-3" : "w-0"}
-                          `}>
-
-            <div className="leading-4">
-              <h4 className="font-semibold">John Doe</h4>
-              <span className="text-xs text-gray-400">johndoe@gmail.com </span>
-            </div>
-            <MoreVertical size={20} />
-          </div>
-        </div>
-      </nav>
-    </aside>
-  );
-}
-
-type SidebarItemProps = {
-  icon: any;
-  text: string;
-  active?: boolean;
-  alert?: boolean;
-  href?: string;
-};
-
-export function SidebarItem({ icon, text, active, alert, href} : SidebarItemProps) {
-  const expanded = useContext(SidebarContext);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollTop]);
+  
+  const menuItems = [
+    { name: "Home", href: "/" },
+    { name: "Popular", href: "/movies/popular" },
+    { name: "Proximamente", href: "/movies/upcoming" },
+    { name: "About", href: "/about" },
+  ];
 
   return (
-    <li className={`relative flex items-center py-2 px-3 my-1 
-                    font-medium rounded-md group
-                    cursor-pointer transition-colors 
-                    ${active ? "bg-gradient-to-tr from-sky-300 to-sky-500 text-sky-800"
-                              : "hover:bg-sky-500 text-gray-100"
-                     }
-                  `}
+    <Navbar 
+      onMenuOpenChange={setIsMenuOpen} 
+      className={`bg-sky-950 transition-transform duration-400 justify-around
+                  ${isVisible ? 'translate-y-0' : '-translate-y-full'} 
+                  ${lastScrollTop == 0 ? 'top-0 transition-transform duration-300' : 'fixed top-0 w-full z-[1000]'}`}
+      //style={lastScrollTop == 0 ? {top: 0, transition} : {position: 'fixed', top: 0, width: '100%', zIndex: 1000}}
     >
-      {icon}
-
-      <span className={`overflow-hidden transition-all ${
-                        expanded ? "w-52 ml-3" : "w-0"
-                      }`}
-      >
-        {text}
-      </span>
-
-      {alert && (
-        <div 
-          className={`absolute right-2 w-2 h-2 rounded 
-                  bg-sky-400 ${
-                    expanded ? "" : "top-2"
-                  } `} 
+      <NavbarContent>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden text-white"
         />
-        
-      )}
-      {!expanded && (
-        <div 
-          className={`absolute left-full rounded-md px-2 py-1 ml-6
-                      bg-sky-400 text-sky-800 text-sm
-                      invisible opacity-20 -translate-x-3 transition-all
-                      group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
-        >
-          {text}
-        </div>
-      )}
-    </li>
+        <NavbarBrand>
+          <Popcorn size={24} className="text-white" />
+          <p className="font-bold text-inherit text-white p-4">Cinema App</p>
+        </NavbarBrand>
+      </NavbarContent>
+
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        {menuItems.map((item) => (
+          <NavbarItem key={item.href} isActive={pathname === item.href}>
+            <Link 
+             className={(pathname === item.href) ? 'text-sky-500' : 'text-white'}
+              href={item.href}>
+              {item.name}
+            </Link>
+          </NavbarItem>
+        ))}
+      </NavbarContent>
+
+      <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Link 
+            href="#"
+            className="text-white"
+          >Login</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Button as={Link} color="primary" href="#" variant="flat">
+            Sign Up
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+
+      <NavbarMenu
+        className="bg-sky-950/40"
+      >
+        {menuItems.map((item) => (
+          <NavbarMenuItem key={item.href}>
+            <Link
+              className={`w-full ${(pathname === item.href) ? 'text-sky-500' : 'text-white'}`}
+              //color={pathname === item.href ? "primary" : "foreground"}
+              //className="w-full"
+              href={item.href}
+              size="lg"
+            >
+              {item.name}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
+    </Navbar>
   );
 }

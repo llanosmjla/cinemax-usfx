@@ -4,7 +4,7 @@ import React from 'react';
 const Card = () => {
     return (
       <div className="relative w-80 h-96 bg-gray-400 antialiased text-gray-900">
-        <img 
+        <Image 
           src="https://source.unsplash.com/random" 
           alt="random image" 
           className="absolute top-0 left-0 w-full h-full object-cover rounded-2xl shadow-md"

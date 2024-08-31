@@ -16,13 +16,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    timeout-minutes: 120
+    concurrency: ci-${{ github.ref }} # Esto asegura que solo una instancia del workflow corra por cada branch
 
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
@@ -34,3 +34,4 @@ jobs:
     - run: npm i
     - run: npm run lint
     - run: npm run build --if-present
+

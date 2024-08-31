@@ -1,562 +1,98 @@
-// export default function MovieDetails({ params }: { params: {id:number} }) {
-//     const { movies } = useMovies({ pages: 1, sort_by: "popularity.desc" });
-//     const movie = movies.find((item : any) => item.id === Number(params.id));
-//     const [cast, setCast] = useState([]);
-//     const [keywords, setKeywords] = useState([]);
-    
-//     // useEffect(() => {
-//     //     const fetchCast = async () => {
-//     //         try {
-//     //             const options = {
-//     //                 method: 'GET',
-//     //                 headers: {
-//     //                     accept: 'application/json',
-//     //                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YWY5ZDMxNmE4ZTI4MmQ4MzlkMDRjZGM0YTk0OWM4OSIsIm5iZiI6MTcyNDM1NjIxMi41MTk3ODksInN1YiI6IjY2Yzc2OGFiY2VlMjUxMWQxMTE1OGNlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._GnGUc1tDybEBgjsmrWCn2FldqRxX0mEmitV_iRGS5E'
-//     //                 }
-//     //             };
-//     //             const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/credits?language=en-US`, options);
-//     //             const data = await response.json();
-//     //             setCast(data.cast.slice(0, 6));  // Limitamos a los primeros 5 actores
-//     //         } catch (error) {
-//     //             console.error("Error fetching cast:", error);
-//     //         }
-//     //     };
-
-//     //     fetchCast();
-//     // }, [movie]);
-
-//     useEffect(() => {
-//         const fetchCast = async () => {
-//             try {
-//                 const options = {
-//                     method: 'GET',
-//                     headers: {
-//                         accept: 'application/json',
-//                         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YWY5ZDMxNmE4ZTI4MmQ4MzlkMDRjZGM0YTk0OWM4OSIsIm5iZiI6MTcyNDM1NjIxMi41MTk3ODksInN1YiI6IjY2Yzc2OGFiY2VlMjUxMWQxMTE1OGNlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._GnGUc1tDybEBgjsmrWCn2FldqRxX0mEmitV_iRGS5E'
-//                     }
-//                 };
-//                 const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/credits?language=en-US`, options);
-//                 const data = await response.json();
-//                 setCast(data.cast.slice(0, 6));  // Limitamos a los primeros 6 actores
-//             } catch (error) {
-//                 console.error("Error fetching cast:", error);
-//             }
-//         };
-
-//         const fetchKeywords = async () => {
-//             try {
-//                 const options = {
-//                     method: 'GET',
-//                     headers: {
-//                         accept: 'application/json',
-//                         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YWY5ZDMxNmE4ZTI4MmQ4MzlkMDRjZGM0YTk0OWM4OSIsIm5iZiI6MTcyNDM1NjIxMi41MTk3ODksInN1YiI6IjY2Yzc2OGFiY2VlMjUxMWQxMTE1OGNlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._GnGUc1tDybEBgjsmrWCn2FldqRxX0mEmitV_iRGS5E'
-//                     }
-//                 };
-//                 const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/keywords`, options);
-//                 const data = await response.json();
-//                 setKeywords(data.keywords);
-//             } catch (error) {
-//                 console.error("Error fetching keywords:", error);
-//             }
-//         };
-
-//         fetchCast();
-//         fetchKeywords();
-//     }, [movie]);
-
-//     if (!movie) {
-//         return <div>Movie not found</div>;
-//     }
-
-//     const genres = movie.genres ? movie.genres.map((genre: any) => genre.name).join(', ') : 'Géneros no disponibles';
-//     const releaseDate = new Date(movie.release_date).toLocaleDateString();
-//     const runtimeHours = movie.runtime ? Math.floor(movie.runtime / 60) : 0;
-//     const runtimeMinutes = movie.runtime ? movie.runtime % 60 : 0;
-//     const duration = `${runtimeHours}h ${runtimeMinutes}m`;
-
-
-//     // return (
-//     //     <>
-//     //         <div style={{
-//     //             display: 'flex',
-//     //             flex: 2,
-//     //             //backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
-//     //             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
-//     //             backgroundSize: 'cover',
-//     //             backgroundPosition: 'top',
-//     //             justifyContent: 'center',
-//     //             alignItems: 'center',
-//     //         }}>
-//     //             <div style={{
-//     //                 display: 'flex',
-//     //                 width: '80%',
-//     //                 height: '90%',
-//     //                 flexDirection: 'row',
-
-//     //             }}>
-//     //                 <div style={{
-//     //                     display:'flex',
-//     //                     flex: 1,
-//     //                     alignItems: 'center',
-//     //                     justifyContent: 'flex-end',
-//     //                     paddingRight: '25px'
-//     //                 }}>
-//     //                     <Image
-//     //                         className="rounded-lg"
-//     //                         src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-//     //                         alt=""
-//     //                         width={350}
-//     //                         height={500}
-//     //                         priority
-//     //                     />
-//     //                 </div>
-//     //                 <div style={{
-//     //                     display:'flex',
-//     //                     flex: 2,
-//     //                     paddingTop: '2rem',
-//     //                     paddingLeft: '1rem',
-//     //                     color: 'white',
-//     //                     flexDirection: 'column',
-//     //                 }}>
-//     //                     <h1 className="text-5xl">{movie.title}</h1>
-//     //                     <p>Fecha_Lanzamiento: {releaseDate}</p>
-//     //                     <p>Duracion: {duration}</p>
-//     //                     <p>Generos: </p>
-//     //                     <i>{movie.tagline}</i>
-//     //                     <p>{movie.overview}</p>
-//     //                 </div>
-//     //             </div>
-//     //         </div>
-//     //         <div style={{
-//     //             display:'flex',
-//     //             flex:1,
-//     //             alignItems: 'center',
-//     //             justifyContent: 'center'
-//     //         }}>
-//     //             <div style={{
-//     //                  display: 'flex',
-//     //                  width: '80%',
-//     //                  height: 'auto',
-//     //                  flexDirection: 'row',
-//     //             }}>
-//     //                 <div style={{
-//     //                     display: 'flex',
-//     //                     flex: 2,
-//     //                     flexDirection: 'column',
-//     //                     paddingLeft: '10px',
-//     //                     paddingTop: '5px',
-//     //                 }}>
-//     //                     <h1 style={{
-//     //                         display:'flex',
-//     //                         flex: 0.5,
-//     //                         textAlign: 'left',
-//     //                         fontWeight: 700,
-//     //                         fontSize: '1.5rem',
-//     //                         color: 'black',
-
-//     //                     }}>
-//     //                         Reparto Principal
-//     //                     </h1>
-//     //                     <div style={{
-//     //                         display: 'flex',
-//     //                         flex: 3,
-//     //                         flexWrap: 'wrap',
-//     //                         flexDirection: 'row',
-//     //                     }}>
-//     //                         {cast.map((actor:any) => (
-//     //                             <div 
-//     //                                 key={actor.id}
-
-//     //                                 className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-2 transition-transform transform hover:scale-105"
-//     //                             >
-//     //                                 <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-//     //                                     <Image
-//     //                                         className="w-full h-auto object-cover"
-//     //                                         src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
-//     //                                         alt={actor.name}
-//     //                                         width={150}
-//     //                                         height={200}
-//     //                                     />
-//     //                                     <div className="p-2 text-black">
-//     //                                         <h3 className="text-lg font-semibold">{actor.name}</h3>
-//     //                                         <p className="text-sm">{actor.character}</p>
-//     //                                     </div>
-//     //                                 </div>
-//     //                             </div>
-//     //                         ))}
-//     //                     </div>
-//     //                 </div>
-//     //                 <div style={{
-//     //                     display: 'flex',
-//     //                     flexDirection: 'column',
-//     //                     flex: 0.5,
-//     //                 }}>
-//     //                     <p>Titulo Original</p>
-//     //                     <p>Estado</p>
-//     //                     <p>Idioma Original</p>
-//     //                     <p>Presupuesto</p>
-//     //                     <p>Ingreso</p>
-//     //                     <div>
-//     //                         <h2>Palabras Clave</h2>
-//     //                         <button>hero</button>
-//     //                     </div>
-//     //                 </div>
-//     //             </div>
-//     //         </div>
-//     //     </>
-//     // );
-
-//     return (
-//         <>
-//             <div style={{
-//                 display: 'flex',
-//                 flex: 2,
-//                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
-//                 backgroundSize: 'cover',
-//                 backgroundPosition: 'center',
-//                 justifyContent: 'center',
-//                 alignItems: 'center',
-//             }}>
-//                 <div style={{
-//                     display: 'flex',
-//                     width: '80%',
-//                     height: '90%',
-//                     flexDirection: 'row',
-//                 }}>
-//                     <div style={{
-//                         display:'flex',
-//                         flex: 1,
-//                         alignItems: 'center',
-//                         justifyContent: 'flex-end',
-//                         paddingRight: '25px'
-//                     }}>
-//                         <Image
-//                             className="rounded-lg"
-//                             src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-//                             alt=""
-//                             width={300}
-//                             height={450}
-//                             priority
-//                         />
-//                     </div>
-//                     <div style={{
-//                         display:'flex',
-//                         flex: 2,
-//                         paddingTop: '2rem',
-//                         paddingLeft: '1rem',
-//                         color: 'white',
-//                         flexDirection: 'column',
-//                     }}>
-//                         <h1 className="text-6xl font-bold mb-4">{movie.title}</h1>
-//                         <p className="text-lg mb-2"><strong>Fecha de Lanzamiento:</strong> {releaseDate}</p>
-//                         <p className="text-lg mb-2"><strong>Duración:</strong> {duration}</p>
-//                         <p className="text-lg mb-2"><strong>Géneros:</strong> {genres}</p>
-//                         <p className="italic text-2xl mb-4">{movie.tagline}</p>
-//                         <p className="text-lg">{movie.overview}</p>
-//                     </div>
-//                 </div>
-//             </div>
-
-//             <div style={{
-//                 display:'flex',
-//                 flex:1,
-//                 justifyContent: 'center',
-//                 padding: '2rem 0'
-//             }}>
-//                 <div style={{
-//                     display: 'flex',
-//                     width: '80%',
-//                     flexDirection: 'row',
-//                 }}>
-//                     <div style={{
-//                         display: 'flex',
-//                         flex: 2,
-//                         flexDirection: 'column',
-//                         paddingLeft: '10px',
-//                         paddingTop: '5px',
-//                     }}>
-//                         <h1 style={{
-//                             textAlign: 'left',
-//                             fontWeight: 700,
-//                             fontSize: '1.5rem',
-//                             color: 'black',
-//                         }}>
-//                             Main Cast
-//                         </h1>
-//                         <div style={{
-//                             display: 'flex',
-//                             flex: 3,
-//                             flexWrap: 'wrap',
-//                             flexDirection: 'row',
-//                         }}>
-//                             {cast.map((actor:any) => (
-//                                 <div 
-//                                     key={actor.id}
-//                                     className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-2 transition-transform transform hover:scale-105"
-//                                     style={{
-//                                         flex: '1 1 150px',
-//                                         margin: '10px',
-//                                         background: '#f5f5f5',
-//                                         borderRadius: '10px',
-//                                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-//                                         overflow: 'hidden',
-//                                     }}
-//                                 >
-//                                     <Image
-//                                         className="object-cover rounded-lg"
-//                                         src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
-//                                         alt={actor.name}
-//                                         width={150}
-//                                         height={200}
-//                                     />
-//                                     <div style={{
-//                                         padding: '10px',
-//                                         textAlign: 'center',
-//                                     }}>
-//                                         <h3 style={{ fontSize: '1rem', fontWeight: 'bold' }}>{actor.name}</h3>
-//                                         <p style={{ fontSize: '0.9rem' }}>{actor.character}</p>
-//                                     </div>
-//                                 </div>
-//                             ))}
-//                         </div>
-//                     </div>
-//                     <div style={{
-//                         display: 'flex',
-//                         flexDirection: 'column',
-//                         flex: 0.5,
-//                         padding: '10px',
-//                         color: 'black'
-//                     }}>
-//                         <p><strong>Original Title:</strong> {movie.original_title}</p>
-//                         <p><strong>Status:</strong> {movie.status}</p>
-//                         <p><strong>Original Language:</strong> {movie.original_language}</p>
-//                         <p><strong>Budget:</strong> ${movie.budget}</p>
-//                         <p><strong>Revenue:</strong> ${movie.revenue}</p>
-//                         <div style={{ marginTop: '20px' }}>
-//                             <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Keywords</h2>
-//                             <button style={{
-//                                 background: '#e2e2e2',
-//                                 padding: '5px 10px',
-//                                 borderRadius: '5px',
-//                                 marginTop: '10px',
-//                             }}>hero</button>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </>
-//     );
-// }
-
 'use client';
 
 import useMovies from "@/hooks/useMovies";
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import Image from 'next/image';
+import MovieCast from "@/components/templats/MovieCast";
+import MovieGenres from "@/components/templats/MovieGenres";
+import MovieKeywords from "@/components/templats/MovieKeywords";
 
-export default function MovieDetails({ params }: { params: {id:number} }) {
+interface MovieDetailsProps {
+    params: { id: number };
+}
+
+const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
     const { movies } = useMovies({ pages: 1, sort_by: "popularity.desc" });
-    const movie = movies.find((item : any) => item.id === Number(params.id));
-    const [cast, setCast] = useState([]);
-    const [keywords, setKeywords] = useState([]);
-
-    useEffect(() => {
-        const fetchCast = async () => {
-            try {
-                const options = {
-                    method: 'GET',
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YWY5ZDMxNmE4ZTI4MmQ4MzlkMDRjZGM0YTk0OWM4OSIsIm5iZiI6MTcyNDM1NjIxMi41MTk3ODksInN1YiI6IjY2Yzc2OGFiY2VlMjUxMWQxMTE1OGNlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._GnGUc1tDybEBgjsmrWCn2FldqRxX0mEmitV_iRGS5E'
-                    }
-                };
-                const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/credits?language=en-US`, options);
-                const data = await response.json();
-                setCast(data.cast.slice(0, 9));  // Limitamos a los primeros 6 actores
-            } catch (error) {
-                console.error("Error fetching cast:", error);
-            }
-        };
-
-        const fetchKeywords = async () => {
-            try {
-                const options = {
-                    method: 'GET',
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YWY5ZDMxNmE4ZTI4MmQ4MzlkMDRjZGM0YTk0OWM4OSIsIm5iZiI6MTcyNDM1NjIxMi41MTk3ODksInN1YiI6IjY2Yzc2OGFiY2VlMjUxMWQxMTE1OGNlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._GnGUc1tDybEBgjsmrWCn2FldqRxX0mEmitV_iRGS5E'
-                    }
-                };
-                const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/keywords`, options);
-                const data = await response.json();
-                setKeywords(data.keywords);
-            } catch (error) {
-                console.error("Error fetching keywords:", error);
-            }
-        };
-
-        fetchCast();
-        fetchKeywords();
-    }, [movie]);
+    const movie = movies.find((item: any) => item.id === Number(params.id));
 
     if (!movie) {
-        return <div>Movie not found</div>;
+        return <div className="text-center text-xl">Movie not found</div>;
     }
 
-    const genres = movie.genres ? movie.genres.map((genre: any) => genre.name).join(', ') : 'Géneros no disponibles';
+    const budget = movie.budget ? `$${movie.budget.toLocaleString()}` : 'N/A';
+    const revenue = movie.revenue ? `$${movie.revenue.toLocaleString()}` : 'N/A';
     const releaseDate = new Date(movie.release_date).toLocaleDateString();
-    const runtimeHours = movie.runtime ? Math.floor(movie.runtime / 60) : 0;
-    const runtimeMinutes = movie.runtime ? movie.runtime % 60 : 0;
-    const duration = `${runtimeHours}h ${runtimeMinutes}m`;
+    const duration = `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`;
 
     return (
-        <>
-            <div style={{
-                display: 'flex',
-                flex: 2,
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'top',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '2rem'
-            }}>
-                <div style={{
-                    display: 'flex',
-                    width: '80%',
-                    height: '90%',
-                    flexDirection: 'row',
-                }}>
-                    <div style={{
-                        display:'flex',
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        paddingRight: '25px'
-                    }}>
-                        <Image
-                            className="rounded-lg"
-                            src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                            alt=""
-                            width={350}
-                            height={500}
-                            priority
-                        />
-                    </div>
-                    <div style={{
-                        display:'flex',
-                        flex: 2,
-                        paddingTop: '2rem',
-                        paddingLeft: '1rem',
-                        color: 'white',
-                        flexDirection: 'column',
-                    }}>
-                        <h1 className="text-6xl font-bold mb-4">{movie.title}</h1>
-                        <p className="text-lg mb-2"><strong>Fecha de Lanzamiento:</strong> {releaseDate}</p>
-                        <p className="text-lg mb-2"><strong>Duración:</strong> {duration}</p>
-                        <p className="text-lg mb-2"><strong>Géneros:</strong> {genres}</p>
-                        <p className="italic text-2xl mb-4">{movie.tagline}</p>
-                        <p className="text-lg">{movie.overview}</p>
-                    </div>
+        <div className="h-screen">
+            {/* CABECERA */}
+            <header className="bg-sky-950 h-16 flex justify-center items-center text-white text-3xl">
+               Cinema App
+            </header>
+            {/* IMAGEN DE FONDO */}
+            <main 
+                className="relative bg-cover bg-top h-auto pb-5 flex items-center flex-col md:flex-row lg:flex-row gap-x-7 px-8"
+                style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`}}
+                >
+                <div className="w-1/3 flex justify-center items-center rounded-lg shadow-md mb-4">
+                    <Image
+                    className="mt-6 rounded-lg shadow-lg"
+                    src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                    alt={movie.title}
+                    width={370}
+                    height={200}
+                    priority
+                    />
                 </div>
-            </div>
-            <div style={{
-                display:'flex',
-                flex:1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: '2rem',
-            }}>
-                <div style={{
-                     display: 'flex',
-                     width: '80%',
-                     height: 'auto',
-                     flexDirection: 'row',
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        flex: 2,
-                        flexDirection: 'column',
-                        paddingLeft: '10px',
-                        paddingTop: '5px',
-                    }}>
-                        <h1 style={{
-                            display:'flex',
-                            flex: 0.5,
-                            textAlign: 'left',
-                            fontWeight: 700,
-                            fontSize: '1.5rem',
-                            color: 'black',
-                        }}>
-                            Reparto Principal
-                        </h1>
-                        <div style={{
-                            display: 'flex',
-                            flex: 3,
-                            flexWrap: 'wrap',
-                            flexDirection: 'row',
-                        }}>
-                            {cast.map((actor:any) => (
-                                <div 
-                                    key={actor.id}
-                                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/6 p-2 transition-transform transform hover:scale-105 cursor-pointer"
-                                >
-                                    <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-                                        <Image
-                                            className="w-full h-auto object-cover"
-                                            src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
-                                            alt={actor.name}
-                                            width={150}
-                                            height={200}
-                                        />
-                                        <div className="p-2 text-black">
-                                            <h3 className="text-lg font-semibold">{actor.name}</h3>
-                                            <p className="text-sm">{actor.character}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flex: 0.5,
-                        paddingLeft: '20px',
-                    }}>
-                        <p><strong>Título Original:</strong> {movie.original_title}</p>
-                        <p><strong>Estado:</strong> {movie.status}</p>
-                        <p><strong>Idioma Original:</strong> {movie.original_language}</p>
-                        <p><strong>Presupuesto:</strong> ${movie.budget}</p>
-                        <p><strong>Ingreso:</strong> ${movie.revenue}</p>
-                        <div>
-                            <h2 style={{
-                                fontWeight: 'bold',
-                                marginTop: '1rem',
-                                marginBottom: '0.5rem',
-                            }}>Palabras Clave</h2>
-                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                {keywords.map((keyword: any) => (
-                                    <button key={keyword.id} 
-                                    style={{
-                                        backgroundColor: '#e5e5e5',
-                                        borderRadius: '8px',
-                                        padding: '5px 10px',
-                                        margin: '5px',
-                                        cursor: 'pointer',
-                                        fontSize: '0.9rem',
-                                        
-                                    }}
-                                    >
-                                        {keyword.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                <div className="w-2/4 h-auto text-white flex justify-center flex-col gap-y-2 text-center lg:justify-start items-start">
+                    <h1 className="text-2xl font-bold underline lg:text-5xl pb-3 text-left">{movie.title}</h1>
+                    <p className="flex flex-col text-base lg:text-2xl text-left">Release Date <i>{releaseDate}</i></p>
+                    <p className="flex flex-col text-base lg:text-2xl text-left">Duration <i>{duration}</i></p>
+                    <p className="flex flex-col text-xl  lg:text-2xl  text-left">Genres <strong className="pt-2"><MovieGenres genreIds={movie.genre_ids}/></strong></p>
+                    <i className="text-base text-white lg:text-2xl  text-left">Tagline: {movie.tagline}</i>
+                    <p className="text-base capitalize text-justify lg:text-xl">{movie.overview}</p>
                 </div>
+            </main>
+            {/* CONTENIDO */}
+            <div className="flex flex-col lg:flex-row">
+                {/* Seccion # 1 */}
+                <section className="h-auto lg:w-3/4">
+                    {/* actores */}
+                    <div className="h-auto">
+                        <p className="flex text-5xl underline text-sky-950 font-bold text-center py-5 lg:text-left pl-10">Casting </p>
+                            <MovieCast movieId={movie.id}/>
+                    </div>
+                    {/* SOCIAl
+                    <div className="bg-sky-300 h-80">
+                        social
+                    </div> */}
+                </section>
+                 {/* Seccion # 2 */}
+                <section className="lg:w-1/4 h-auto bg-sky-950 text-white">
+                    {/* INFO */}
+                    <div className=" flex flex-col h-2/4 pt-5 pl-5">
+                        <h2 className="text-4xl font-bold mb-4 underline">Additional Information</h2>
+                        <p className="mb-4 flex font-bold flex-col text-xl">Original Title: <span className="my-2 font-normal text-base">{movie.original_title}</span></p>
+                        <p className="mb-4 flex font-bold flex-col text-xl">Status: <span className="my-2 font-normal text-base">{movie.status}</span></p>
+                        <p className="mb-4 flex font-bold flex-col text-xl">Original Language: <span className="my-2 font-normal text-base uppercase">{movie.original_language}</span></p>
+                        <p className="mb-4 flex font-bold flex-col text-xl">Budget: <span className="my-2 font-normal text-base ">${budget}</span></p>
+                        <p className="mb-4 flex font-bold flex-col text-xl">Revenue: <span className="my-2 font-normal text-base">${revenue}</span></p>
+                    </div>
+                    {/* keywords */}
+                    <div className="h-auto pl-5 pr-2 pt-1 flex flex-col">
+                        <h2 className="text-4xl font-bold mb-4 underline">Keywords</h2>
+                        <MovieKeywords movieId={movie.id}/>
+                    </div>
+                    {/* PUNTUACION */}
+                    <div className="h-1/4 pl-5 pt-5 pb-4">
+                        <h2 className="text-4xl font-bold mb-4 underline">Content Rating</h2>
+                        <p className="bg-sky-600 text-white text-xl mr-5 p-3 rounded-t-lg text-center">100 %</p>
+                        <p className="bg-gray-700 text-white text-xl mr-5 p-3 rounded-b-lg text-center">Yes! it looks good</p>
+                    </div>
+                </section>
             </div>
-        </>
+        </div>
     );
 }
 
+export default MovieDetails;

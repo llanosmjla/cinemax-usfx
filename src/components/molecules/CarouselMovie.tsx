@@ -13,7 +13,6 @@ export default function CarouselMovie({ movies }: any) {
                 showThumbs={false}
                 autoPlay
                 infiniteLoop
-            //width={1150}
             >
                 {movies.map((movie: any) => (
                     <div key={movie.id}>
@@ -23,8 +22,6 @@ export default function CarouselMovie({ movies }: any) {
                                 <a className="flex">
 
                                     <Image
-                                        // src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-                                        //src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2/${movie.backdrop_path}`}
                                         src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
                                         alt={movie.title}
                                         layout="responsive"

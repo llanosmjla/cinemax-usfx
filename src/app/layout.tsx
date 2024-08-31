@@ -36,9 +36,8 @@ export default function RootLayout({
             <hr className="my-3" />
           </NavBar>
           </div>
-
-          
-          <div className="flex justify-center align-bottom">
+      
+          <div className="w-full">
             {children}
           </div>
         </div>

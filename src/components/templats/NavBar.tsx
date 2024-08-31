@@ -28,7 +28,7 @@ export default function NavBar({ children } : Readonly<{ children: React.ReactNo
 
   return (
       <aside className={`${!expanded || !isMobile ? "sticky top-0 h-screen border-r" : "fixed top-0 h-screen border-r z-50"}`} >
-      <nav className="h-full w-fit flex flex-col bg-sky-700 border-r shadow-sm">
+      <nav className="h-full w-fit flex flex-col bg-sky-950 border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center ">
           <Image
             className={`overflow-hidden transition-all ${expanded ? "w-36" : "w-0"}`}

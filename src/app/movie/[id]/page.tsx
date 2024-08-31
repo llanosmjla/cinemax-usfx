@@ -1,5 +1,4 @@
 'use client';
-
 import useMovies from "@/hooks/useMovies";
 import Image from 'next/image';
 import MovieCast from "@/components/templats/MovieCast";
@@ -18,8 +17,8 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
         return <div className="text-center text-xl">Movie not found</div>;
     }
 
-    const budget = movie.budget ? `$${movie.budget.toLocaleString()}` : 'N/A';
-    const revenue = movie.revenue ? `$${movie.revenue.toLocaleString()}` : 'N/A';
+    const budget = movie.budget ? `$${movie.budget.toLocaleString()}` : "N/A";
+    const revenue = movie.revenue ? `$${movie.revenue.toLocaleString()}` : "N/A";
     const releaseDate = new Date(movie.release_date).toLocaleDateString();
     const duration = `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`;
 
@@ -62,12 +61,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
                         <p className="flex text-5xl underline text-sky-950 font-bold text-center py-5 lg:text-left pl-10">Casting </p>
                             <MovieCast movieId={movie.id}/>
                     </div>
-                    {/* SOCIAl
-                    <div className="bg-sky-300 h-80">
-                        social
-                    </div> */}
                 </section>
-                 {/* Seccion # 2 */}
                 <section className="lg:w-1/4 h-auto bg-sky-950 text-white">
                     {/* INFO */}
                     <div className=" flex flex-col h-2/4 pt-5 pl-5">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AboutPage: React.FC = () => {
+const AboutPage = () => {
     return (
         <div className="bg-sky-950 w-full h-screen">
              <div className="container mx-auto py-12 px-6 lg:px-8 bg-sky-900 rounded-lg shadow-lg">

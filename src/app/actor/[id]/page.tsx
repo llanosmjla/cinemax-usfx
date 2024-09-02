@@ -1,4 +1,4 @@
-// src/app/actor/[id]/page.tsx
+
 'use client';
 
 import useActor from '@/hooks/useActor';

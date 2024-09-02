@@ -1,9 +1,11 @@
 'use client';
+
 import useMovies from "@/hooks/useMovies";
 import Image from 'next/image';
 import MovieCast from "@/components/templats/MovieCast";
 import MovieGenres from "@/components/templats/MovieGenres";
 import MovieKeywords from "@/components/templats/MovieKeywords";
+import Link from "next/link";
 
 interface MovieDetailsProps {
     params: { id: number };
@@ -12,6 +14,8 @@ interface MovieDetailsProps {
 const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
     const { movies } = useMovies({ pages: 1, sort_by: "popularity.desc" });
     const movie = movies.find((item: any) => item.id === Number(params.id));
+    console.log("Movie:", movie);
+    
 
     if (!movie) {
         return <div className="text-center text-xl">Movie not found</div>;
@@ -24,10 +28,6 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
 
     return (
         <div className="h-screen">
-            {/* CABECERA */}
-            <header className="bg-sky-950 h-16 flex justify-center items-center text-white text-3xl">
-               Cinema App
-            </header>
             {/* IMAGEN DE FONDO */}
             <main 
                 className="relative bg-cover bg-top h-auto pb-5 flex items-center flex-col md:flex-row lg:flex-row gap-x-7 px-8"
@@ -45,7 +45,18 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
                 </div>
                 <div className="w-2/4 h-auto text-white flex justify-center flex-col gap-y-2 text-center lg:justify-start items-start">
                     <h1 className="text-2xl font-bold underline lg:text-5xl pb-3 text-left">{movie.title}</h1>
-                    <p className="flex flex-col text-base lg:text-2xl text-left">Release Date <i>{releaseDate}</i></p>
+                    <div className="flex flex-row text-base lg:text-2xl text-left">
+                        Release Date:  <i className="pl-2">{releaseDate}</i>
+                        <button
+                        type="button"
+                        className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        >
+                        <Link href={`/purcharse/${movie.id}`}>
+                            Buy Tickets
+                        </Link>
+                    </button>
+                    </div>
+                    
                     <p className="flex flex-col text-base lg:text-2xl text-left">Duration <i>{duration}</i></p>
                     <p className="flex flex-col text-xl  lg:text-2xl  text-left">Genres <strong className="pt-2"><MovieGenres genreIds={movie.genre_ids}/></strong></p>
                     <i className="text-base text-white lg:text-2xl  text-left">Tagline: {movie.tagline}</i>

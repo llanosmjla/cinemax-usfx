@@ -16,7 +16,7 @@ type CardOverlayProps = {
 
 export default function CardOverlay( { src, alt, width, height, title, releaseDate, genre, popularity, voteAverage }: CardOverlayProps ) {
     const percentage = Math.round(voteAverage * 10);
-    const borderColor = percentage >= 65 ? 'border-green-600' : percentage >= 40 ? 'border-yellow-400' : 'border-red-700';
+    const borderColor = percentage >= 70 ? 'border-green-600' : percentage >= 40 ? 'border-yellow-400' : 'border-red-700';
 
     return (
         <div className='relative'>
@@ -26,7 +26,7 @@ export default function CardOverlay( { src, alt, width, height, title, releaseDa
                 width={width}
                 height={height}
             />
-            <div className={`absolute flex items-center justify-center top-0.5`}>
+            <div className={`absolute flex items-center justify-center top-2.5 left-2`}>
                 <div className={`w-12 h-12 flex items-center justify-center rounded-full border-4 bg-black text-white text-sm font-bold ${borderColor}`}>
                     <span>{percentage}%</span>
                 </div>

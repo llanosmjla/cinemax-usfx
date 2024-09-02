@@ -21,12 +21,12 @@ const ActorMovies: React.FC<ActorMoviesProps> = ({ actorId }) => {
 
     return (
         <section className="py-10 px-8">
-            <h2 className="text-3xl font-bold mb-4 underline">Movies</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <h2 className="text-3xl pl-14 font-bold mb-4 underline text-black">Movies</h2>
+            <div className="flex flex-wrap justify-center items-center gap-4 ">
                 {movies.map((movie) => (
                     <div
                         key={movie.id}
-                        className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
+                        className="bg-sky-500 w-[205px] h-auto flex justify-center flex-col items-center rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
                         onClick={() => handleMovieClick(movie.id)}
                     >
                         <Image
@@ -36,12 +36,12 @@ const ActorMovies: React.FC<ActorMoviesProps> = ({ actorId }) => {
                             height={300}
                             className="rounded-t-lg"
                         />
-                        <div className="p-4">
-                            <h3 className="text-xl font-semibold mb-2">{movie.title}</h3>
-                            <p className="text-sm">{movie.character}</p>
+                        <div className="flex justify-center w-full flex-col p-4 text-center items-center">
+                            <h3 className="pl-2 pt-4 mb-1 text-[min(1.0rem,5vw)] font-bold text-sky-100 dark:text-white truncate max-w-full whitespace-nowrap hover:whitespace-normal hover:text-xl hover:overflow-visible">{movie.title}</h3>
+                            <p className="flex text-sm">{movie.character}</p>
                         </div>
                     </div>
-                ))}
+                )).slice(0, 12)}
             </div>
         </section>
     );

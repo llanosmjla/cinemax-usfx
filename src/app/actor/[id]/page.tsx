@@ -3,7 +3,7 @@
 
 import useActor from '@/hooks/useActor';
 import Image from 'next/image';
-import ActorMovies from '@/components/templats/ActorMovies';
+import ActorMovies from '@/app/components/templats/ActorMovies';
 
 interface ActorDetailsProps {
     params: { id: number };
@@ -17,17 +17,16 @@ const ActorDetails: React.FC<ActorDetailsProps> = ({ params }) => {
     }
 
     return (
-        <div className="h-screen bg-gray-100">
+        <div className="h-full w-full flex flex-wrap bg-gray-100">
             {/* CABECERA */}
-            <header className="bg-sky-950 h-16 flex justify-center items-center text-white text-3xl">
-               Cinema App - Actor Details
-            </header>
+            
             {/* CONTENIDO */}
             <main className="py-10 px-8 flex items-center flex-col md:flex-row lg:flex-row gap-x-7">
-                <div className="bg-sky-950 w-1/3 flex justify-center items-center rounded-lg shadow-md mb-4">
+                <div className="w-1/3 flex justify-center items-center rounded-lg mb-4">
                     <Image
                     className="rounded-lg shadow-lg"
-                    src={`https://image.tmdb.org/t/p/original/${actor.profile_path}`}
+                    src={
+                        actor.profile_path? `https://image.tmdb.org/t/p/original/${actor.profile_path}` : "/user.svg"}
                     alt={actor.name}
                     width={370}
                     height={200}

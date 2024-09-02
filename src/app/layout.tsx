@@ -1,11 +1,11 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import HomeIcon from "@/components/atoms/icons/HomeIcon";
-import AboutIcon from "@/components/atoms/icons/AboutIcon";
-import Link from "next/link";
 import { NextUIProvider } from "@nextui-org/react";
-import NavBar from "@/components/templats/NavBar";
+import NavBar from "@/app/components/templats/NavBar";
+import Footer from "./components/templats/Footer";
+import SearchMoviePage from "./movies/search-movie/page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,12 +27,19 @@ export default function RootLayout({
         <div className="flex bg-sky-950 flex-col">
           <div>
             <NavBar />
+            {/* <SearchMovie /> */}
+            <SearchMoviePage />
           </div>
           <div>
             {children}
           </div>
+          <div>
+          <Footer />
+          </div>
+          
         </div>
         </NextUIProvider>
+
       </body>
     </html>
   );

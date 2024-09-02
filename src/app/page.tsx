@@ -6,6 +6,8 @@ import Footer from "@/components/templats/Footer";
 import Header from "@/components/templats/Header";
 import useMovies from "@/hooks/useMovies";
 import useGenres from "@/hooks/useGenres";
+import useFilteredMovies from "@/hooks/useFilteredMovies";
+
 
 
 import { useState } from "react";
@@ -37,16 +39,22 @@ const LastPage = (page: number) => {
 export default function Home() {
   const [page, setPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
   const { genres } = useGenres();
   const { movies } = useMovies({ pages: page, sort_by: "popularity.desc" });
+  const { filteredMovies } = useFilteredMovies({ page, genreId: selectedGenre, query: searchQuery });
 
   return (
     <div className="flex flex-col w-full h-full justify-center items-center">
       <div className="flex justify-between text-sky-400 bg-sky-950 basis-14 items-center text-lg px-4 rounded-t-lg w-full h-full">
         <h2 className="text-xl">Page: {page}</h2>
-        <input type="search" name="" id="" placeholder="Search"/>
+        <input 
+        type="search" 
+        placeholder="Search"
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="px-3 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 w-64"/>
       </div>
-      <div className="basis-2/6">
+      <div className="basis-2/6 pb-5">
         <CarouselMovie movies={movies} />
       </div>
       <div className=" basis-16">
@@ -73,7 +81,7 @@ export default function Home() {
                 )}
       </div>
       <div className="basis-1/2 grid grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-      {movies.map((movie: any) => (
+      {filteredMovies.map((movie: any) => (
           <CardTemplate
             id={movie.id}
             key={movie.id}

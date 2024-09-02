@@ -5,7 +5,7 @@ import Image from 'next/image';
 import MovieCast from "@/components/templats/MovieCast";
 import MovieGenres from "@/components/templats/MovieGenres";
 import MovieKeywords from "@/components/templats/MovieKeywords";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface MovieDetailsProps {
     params: { id: number };
@@ -16,7 +16,6 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
     const movie = movies.find((item: any) => item.id === Number(params.id));
     console.log("Movie:", movie);
     
-    const router = useRouter();
 
     if (!movie) {
         return <div className="text-center text-xl">Movie not found</div>;
@@ -26,10 +25,6 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
     const revenue = movie.revenue ? `$${movie.revenue.toLocaleString()}` : "N/A";
     const releaseDate = new Date(movie.release_date).toLocaleDateString();
     const duration = `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`;
-
-    const handlePurchase = () => {
-        router.push(`/purcharse/${movie.id}`);
-    };
 
     return (
         <div className="h-screen">
@@ -54,10 +49,11 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ params }) => {
                         Release Date:  <i className="pl-2">{releaseDate}</i>
                         <button
                         type="button"
-                        onClick={handlePurchase}
                         className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700 transition-colors"
                         >
-                        Buy Tickets
+                        <Link href={`/purcharse/${movie.id}`}>
+                            Buy Tickets
+                        </Link>
                     </button>
                     </div>
                     

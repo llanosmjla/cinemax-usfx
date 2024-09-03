@@ -1,9 +1,10 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useMovies from '@/hooks/useMovies';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import JsBarcode from 'jsbarcode';
 
 interface PurchasePageProps {
     params: { id: number };
@@ -17,7 +18,22 @@ const PurchasePage: React.FC<PurchasePageProps> = ({ params }) => {
     const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
     const [showDate, setShowDate] = useState<string>(new Date().toISOString().split('T')[0]);
-    const [showTickets, setShowTickets] = useState<boolean>(false); // Para mostrar los boletos después de la compra
+    const [showTickets, setShowTickets] = useState<boolean>(false); 
+
+    useEffect(() => {
+        if (showTickets) {
+            selectedSeats.forEach((seat) => {
+                const barcodeValue = `B16${seat.split('').reduce((acc, curr) => acc + curr.charCodeAt(0), 0)}2023`;
+                JsBarcode(`#barcode-${seat}`, barcodeValue, {
+                    format: "CODE128",
+                    lineColor: "#000",
+                    width: 2,
+                    height: 40,
+                    displayValue: true,
+                });
+            });
+        }
+    }, [showTickets, selectedSeats]);
 
     if (!movie) {
         return <div>Loading...</div>;
@@ -38,7 +54,7 @@ const PurchasePage: React.FC<PurchasePageProps> = ({ params }) => {
     const handlePurchase = () => {
         if (selectedSeats.length && selectedTime) {
             alert('Tickets purchased!');
-            setShowTickets(true); // Mostrar boletos solo después de la compra
+            setShowTickets(true); 
         } else {
             alert('Please select at least one seat and a time.');
         }
@@ -149,9 +165,7 @@ const PurchasePage: React.FC<PurchasePageProps> = ({ params }) => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <div className="barcode bg-black text-white p-2 rounded-md text-xs font-mono">
-                                        <p>{`B16${seat.split('').reduce((acc, curr) => acc + curr.charCodeAt(0), 0)}2023`}</p>
-                                    </div>
+                                    <svg id={`barcode-${seat}`} className="barcode bg-white text-black p-2 rounded-md text-xs font-mono" />
                                     <p className="text-xs text-gray-500 mt-2">CinemaMax</p>
                                 </div>
                             </motion.div>

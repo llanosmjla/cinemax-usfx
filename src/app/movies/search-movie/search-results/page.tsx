@@ -3,11 +3,12 @@ import CardTemplate from "@/app/components/templats/CardTemplate";
 import { getGenres } from "@/services/genres";
 import { getSearch } from "@/services/search";
 
-export async function SearchMoviesPage ({searchParams} : {searchParams: {query : string}})
+async function SearchMoviesPage ({searchParams} : {searchParams: {query : string}})
 {
 
     const query = searchParams.query;
     console.log("qwqw: ", query);
+
     const data = await getSearch({query});
     const genres = await getGenres();
     console.log(data)
@@ -42,3 +43,4 @@ export async function SearchMoviesPage ({searchParams} : {searchParams: {query :
 }
 
 export default SearchMoviesPage;
+

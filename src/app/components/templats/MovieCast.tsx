@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { act } from 'react';
 import Image from 'next/image';
-import useCast from '@/hooks/useCast';
 import Link from 'next/link';
+import { CreditsType, UtilsResponse } from '@/app/api/type/moviesType';
 
-interface MovieCastProps {
-    movieId: number;
+type MovieCastProps = {
+    dataCast: CreditsType[]; 
 }
 
-const MovieCast: React.FC<MovieCastProps> = ({ movieId }) => {
-    const { cast } = useCast(movieId);
+const MovieCast = ({ dataCast } : MovieCastProps) => {
 
     return (
-            <div className="ml-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                {cast.map(actor => (
+            <div className="flex gap-2 flex-wrap justify-center items-center">
+                {dataCast.map((actor) => (
                     <Link 
                         key={actor.id}
                         href={`/actor/${actor.id}`} 
@@ -20,10 +19,12 @@ const MovieCast: React.FC<MovieCastProps> = ({ movieId }) => {
                     >
                     <div 
                         key={actor.id} 
-                        className="bg-sky-950 w-60 h-auto rounded-lg my-3 transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
+                        className="bg-sky-950 w-60 h-auto justify-center items-center rounded-lg my-3 transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
                     >
                         <Image
-                            src={`https://image.tmdb.org/t/p/original/${actor.profile_path}`}
+                            src={
+                                actor.profile_path ? `https://image.tmdb.org/t/p/original/${actor.profile_path}`: "/user.svg"
+                            }
                             alt={actor.name}
                             width={250}
                             height={300}
@@ -35,7 +36,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ movieId }) => {
                         </div>
                     </div>
                     </Link>
-                ))}
+                )).slice(0, 8)}
             </div>
     );
 };

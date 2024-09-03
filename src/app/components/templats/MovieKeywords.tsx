@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Key } from 'react';
 import useKeywords from '@/hooks/useKeywords';
+import { KeywordsType } from '@/app/api/type/moviesType';
 
 interface MovieKeywordsProps {
-    movieId: number;
+    dataKeywords: KeywordsType[];
 }
 
-const MovieKeywords: React.FC<MovieKeywordsProps> = ({ movieId }) => {
-    const { keywords } = useKeywords(movieId);
+const MovieKeywords = ({ dataKeywords }: MovieKeywordsProps) => {
 
     return (
         <div className="flex flex-wrap gap-2">
-            {keywords.map(keyword => (
+            {dataKeywords.map(keyword => (
                 <span key={keyword.id} className="bg-gray-700 rounded-full px-4 py-2 text-sm font-medium text-white">
                     {keyword.name}
                 </span>
